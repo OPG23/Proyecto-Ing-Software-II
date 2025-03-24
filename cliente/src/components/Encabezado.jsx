@@ -4,35 +4,38 @@ import { usoAutenticacion } from "../context/ContextoAutenticacion";
 function Encabezado() {
   const { estaAutenticado, cerrarSesion } = usoAutenticacion();
   return (
-    <div className=" bg-[rgba(231,231,231,0.9)] text-balck text-center py-2 border-2 flex items-center justify-center">
-      <img
-        src="/logo.svg"
-        alt="LogoProyecto"
-        className="h-25 ml-5 cursor-pointer"
-        onClick={() => navigate("/iniciar-sesion")}
-      />
-      <h1 className="flex-1 text-5xl font-bold">Plataforma educativa A.A</h1>
-      <ul>
+    <div className="fixed top-0 left-0 w-full bg-[#e7e7e7] text-center text-black p-2 border-b-2 grid grid-cols-4 gap-4 text-2xl sm:text-4xl sm:grid-cols-6 xl:grid-cols-8">
+      <span className="flex justify-center items-center">
+        <img
+          src="/logo.svg"
+          alt="LogoProyecto"
+          className="h-10 cursor-pointer xl:h-12.5"
+          onClick={() => navigate("/iniciar-sesion")}
+        />
+      </span>
+      <h1
+        className="font-bold col-span-2 flex justify-center items-center
+      sm:col-span-4 xl:col-span-6"
+      >
+        Proyecto UAN
+      </h1>
+      <ul className="flex justify-center items-center">
         {estaAutenticado ? (
-          <div className="bg-[#8b8a8a] rounded-md my-2 py-2 px-4 flex mr-5 bg">
-            <Link
-              to="/"
-              onClick={() => {
-                cerrarSesion();
-              }}
-            >
-              Cerrar sesion
-            </Link>
+          <div
+            className="bg-[#8b8a8a] rounded-md px-4 py-1 text-sm sm:text-xl sm:px-5 sm:py-1 border-1 cursor-pointer"
+            onClick={cerrarSesion}
+          >
+            <Link to="/">Salir</Link>
           </div>
         ) : (
-          <>
+          <div className="flex justify-center items-center">
             <img
               src="/logo.svg"
               alt="LogoProyecto"
-              className="h-25 mr-5 cursor-pointer"
+              className="h-10 cursor-pointer xl:h-12.5"
               onClick={() => navigate("/iniciar-sesion")}
             />
-          </>
+          </div>
         )}
       </ul>
     </div>
