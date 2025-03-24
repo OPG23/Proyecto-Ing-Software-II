@@ -3,42 +3,67 @@ import bcrypt from "bcryptjs";
 import { crearTokenAcceso } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_SECRETO } from "../config.js";
-import { esAdministrador } from "../middlewares/validadorAdministrador.js";
 
 export const registro = async (req, res) => {
   const {
-    nombre,
+    nombres,
+    apellidos,
     direccionResidencia,
     eps,
     cedula,
     numeroContacto,
     esEstudiante,
-    usuario,
-    clave,
-    correo,
   } = req.body;
 
   try {
-    const usuarioEncontrado = await Usuario.findOne({ usuario });
-    if (usuarioEncontrado)
-      return res.status(400).json(["El usuario ya está en uso"]);
-
-    const correoEncontrado = await Usuario.findOne({ correo });
-    if (correoEncontrado)
-      return res.status(400).json(["El correo ya está en uso"]);
-
     const cedulaEncontrada = await Usuario.findOne({ cedula });
     if (cedulaEncontrada)
       return res.status(400).json(["La cedula ya está en uso"]);
 
-    const numeroContactoEncontrado = await Usuario.findOne({ numeroContacto });
-    if (numeroContactoEncontrado)
-      return res.status(400).json(["El numero de contacto ya está en uso"]);
+    let usuarioDisponible = false;
+    let iterador = 1;
+    let usuario = "";
+    let letrasObtenidas = 1;
+    const maxIntentos = 100;
+    const maxLetras = nombres.split(" ", 1)[0].length;
 
-    const claveHash = await bcrypt.hash(clave, 10);
+    do {
+      if (iterador >= maxIntentos) {
+        iterador = 1;
+        letrasObtenidas += 1;
+      }
+
+      if (letrasObtenidas > maxLetras) break;
+
+      usuario =
+        nombres.slice(0, letrasObtenidas) +
+        apellidos.split(" ", 1)[0] +
+        iterador;
+
+      usuario = usuario
+        .normalize("NFD")
+        .replace(/[\u0300-\u036f]/g, "")
+        .toLowerCase();
+
+      const usuarioEncontrado = await Usuario.findOne({ usuario });
+
+      if (!usuarioEncontrado) {
+        usuarioDisponible = true;
+      } else {
+        iterador += 1;
+      }
+    } while (!usuarioDisponible);
+
+    if (!usuarioDisponible)
+      return res.status(400).json(["No se pudo crear el usuario"]);
+
+    const correo = usuario + "@proyecto.uan.com";
+
+    const claveHash = await bcrypt.hash(String(cedula), 10);
 
     const nuevoUsuario = new Usuario({
-      nombre,
+      nombres,
+      apellidos,
       direccionResidencia,
       eps,
       cedula,
@@ -51,7 +76,9 @@ export const registro = async (req, res) => {
     });
 
     await nuevoUsuario.save();
-
+    res
+      .status(201)
+      .json(["Usuario registrado con éxito", usuario, correo ]);
   } catch (error) {
     res.status(500).json(["Error interno del servidor: " + error.message]);
   }
@@ -63,12 +90,9 @@ export const iniciarSesion = async (req, res) => {
   try {
     const usuarioEncontrado = await Usuario.findOne({ usuario });
 
-    if (!usuarioEncontrado)
-      return res.status(400).json(["Usuario o Clave incorrecta"]);
-
     const claveCoincide = await bcrypt.compare(clave, usuarioEncontrado.clave);
 
-    if (!claveCoincide)
+    if (!claveCoincide || !usuarioEncontrado)
       return res.status(400).json(["Usuario o Clave incorrecta"]);
 
     const token = await crearTokenAcceso({ id: usuarioEncontrado._id });
@@ -76,7 +100,8 @@ export const iniciarSesion = async (req, res) => {
     res.cookie("token", token);
     res.json({
       id: usuarioEncontrado._id,
-      nombre: usuarioEncontrado.nombre,
+      nombres: usuarioEncontrado.nombres,
+      apellidos: usuarioEncontrado.apellidos,
       usuario: usuarioEncontrado.usuario,
       correo: usuarioEncontrado.correo,
       esAdministrador: usuarioEncontrado.esAdministrador,
@@ -103,7 +128,8 @@ export const profile = async (req, res) => {
 
   return res.json({
     id: usuarioEncontrado._id,
-    nombre: usuarioEncontrado.nombre,
+    nombres: usuarioEncontrado.nombres,
+    apellidos: usuarioEncontrado.apellidos,
     correo: usuarioEncontrado.correo,
     esAdministrador: usuarioEncontrado.esAdministrador,
     createdAt: usuarioEncontrado.createdAt,
@@ -125,7 +151,8 @@ export const verificarToken = async (req, res) => {
     return res.json({
       id: usuarioEncontrado._id,
       esAdministrador: usuarioEncontrado.esAdministrador,
-      nombre: usuarioEncontrado.nombre,
+      nombres: usuarioEncontrado.nombres,
+      apellidos: usuarioEncontrado.apellidos,
       usuario: usuarioEncontrado.usuario,
       correo: usuarioEncontrado.correo,
     });
