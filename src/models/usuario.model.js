@@ -22,7 +22,11 @@ const schemaUsuario = new mongoose.Schema(
       type: Boolean,
       require: false,
     },
-    nombre: {
+    nombres: {
+      type: String,
+      required: true,
+    },
+    apellidos: {
       type: String,
       required: true,
     },
@@ -44,7 +48,6 @@ const schemaUsuario = new mongoose.Schema(
       type: Number,
       required: true,
       trim: true,
-      unique: true,
     },
     esEstudiante: {
       type: Boolean,
