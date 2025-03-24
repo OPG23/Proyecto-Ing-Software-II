@@ -1,16 +1,12 @@
 import { z } from "zod";
 
 export const esquemaRegistro = z.object({
-  nombre: z.string({
-    required_error: "El nombre es requerido",
+  nombres: z.string({
+    required_error: "Los nombres son requeridos",
   }),
-  correo: z
-    .string({
-      required_error: "El correo es requerido",
-    })
-    .email({
-      message: "No es un correo valido",
-    }),
+  apellidos: z.string({
+    required_error: "Los apellidos son requeridos",
+  }),
   cedula: z
     .number({
       required_error: "La cedula es requerida",
@@ -30,16 +26,6 @@ export const esquemaRegistro = z.object({
     })
     .lte(9999999999, {
       message: "Numero de contacto no valido",
-    }),
-  usuario: z.string({
-    required_error: "El usuario es requerido",
-  }),
-  clave: z
-    .string({
-      required_error: "La clave es requerido",
-    })
-    .min(6, {
-      message: "La clave debe ser mayor a 6 caracteres",
     }),
   eps: z.string({
     required_error: "La eps es requerido",
