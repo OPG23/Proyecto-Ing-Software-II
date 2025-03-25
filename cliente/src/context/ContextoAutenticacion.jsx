@@ -49,7 +49,6 @@ export const ProveedorAutenticacion = ({ children }) => {
   const iniciarSesion = async (usuario) => {
     try {
       const res = await peticionIniciarSesion(usuario);
-      console.log(res);
       setEstaAutenticado(true);
       setUsuario(res.data);
     } catch (error) {
