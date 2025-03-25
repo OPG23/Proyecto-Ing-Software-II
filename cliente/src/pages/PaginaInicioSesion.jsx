@@ -8,8 +8,9 @@ function PaginaInicioSesion() {
     formState: { errors },
   } = useForm();
   const { iniciarSesion, errores } = usoAutenticacion();
-  const onSubmit = handleSubmit((data) => {
-    iniciarSesion(data);
+  const onSubmit = handleSubmit(async (data) => {
+    data.usuario = data.usuario.toLowerCase();
+    await iniciarSesion(data);
   });
 
   return (
