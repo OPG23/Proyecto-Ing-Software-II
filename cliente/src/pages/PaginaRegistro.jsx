@@ -1,5 +1,6 @@
 import { useForm } from "react-hook-form";
 import { usoAutenticacion } from "../context/ContextoAutenticacion";
+import { ToastContainer } from "react-toastify";
 
 function PaginaRegistro() {
   const {
@@ -17,86 +18,60 @@ function PaginaRegistro() {
   });
 
   return (
-    <div className="flex h-full items-center justify-center bg-[#dddddb]">
-      <div className="bg-[rgba(231,231,231,0.9)] max-w-md w-full p-10 rounded-4xl border-2 h-full mt-5">
+    <div className="flex h-screen items-center justify-center">
+      <div className="bg-[rgba(231,231,231,0.9)] max-w-md w-90 pt-5 rounded-4xl border-2 mt-10 xl:mt-12.5">
         {errores.map((error, i) => (
-          <div
-            className="bg-red-500 p-2 text-white text-center rounded-md my-2"
-            key={i}
-          >
+          <div className="p-2 text-red-500 text-center rounded-md my-2" key={i}>
             {error}
           </div>
         ))}
-        <h1 className="text 2xl font-bold text-center">
+        <h1 className="text-2xl font-bold text-center ">
           Registrar nueva cuenta
         </h1>
         <form
           className="grid grid-cols-2 gap-4 p-6 max-w-lg mx-auto"
           onSubmit={onSubmit}
         >
-          <div className="col-span-2">
-            <input
-              type="email"
-              {...register("correo", { required: true })}
-              className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-              placeholder="Correo"
-            />
-            {errors.correo && <p className="text-red-500">Correo requerido</p>}
-          </div>
-          <input
-            type="text"
-            {...register("usuario", { required: true })}
-            className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-            placeholder="Usuario"
-          />
-          <input
-            type="password"
-            {...register("clave", { required: true })}
-            className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-            placeholder="Clave"
-          />
-          {errors.usuario && <p className="text-red-500">Usuario requerido</p>}
-          {errors.clave && <p className="text-red-500">Clave requerida</p>}
-
-          <div className="col-span-2">
+          <div className="col-span-2 grid grid-cols-2 gap-4">
             <input
               type="text"
-              {...register("nombre", { required: true })}
+              {...register("nombres", { required: true })}
               className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-              placeholder="Nombre"
+              placeholder="Nombres"
             />
-            {errors.nombre && <p className="text-red-500">Nombre requerido</p>}
-          </div>
-          <input
-            type="number"
-            {...register("cedula", { required: true })}
-            className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-            placeholder="Cedula"
-          />
-          <input
-            type="number"
-            {...register("numeroContacto", { required: true })}
-            className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-            placeholder="Telefono"
-          />
-          {errors.cedula && <p className="text-red-500">Cedula requerida</p>}
-          {errors.numeroContacto && (
-            <p className="text-red-500">Telefono requerido</p>
-          )}
-
-          <div className="col-span-2">
             <input
               type="text"
-              {...register("direccionResidencia", { required: true })}
+              {...register("apellidos", { required: true })}
               className="w-full text-black border-2 px-4 py-2 rounded-md my-2"
-              placeholder="Dirección De Residencia"
+              placeholder="Apellidos"
             />
-            {errors.direccionResidencia && (
-              <p className="text-red-500">
-                La direccion de residencia es requerida
-              </p>
+            {errors.nombres && (
+              <p className="text-red-500">Nombres requeridos</p>
+            )}
+            {errors.apellidos && (
+              <p className="text-red-500 col-start-2">Apellidos requeridos</p>
             )}
           </div>
+
+          <div className="col-span-2 grid grid-cols-2 gap-4">
+            <input
+              type="number"
+              {...register("cedula", { required: true })}
+              className="[&::-webkit-inner-spin-button]:appearance-none w-full text-black border-2 px-4 py-2 rounded-md my-2"
+              placeholder="Cedula"
+            />
+            <input
+              type="number"
+              {...register("numeroContacto", { required: true })}
+              className="[&::-webkit-inner-spin-button]:appearance-none w-full text-black border-2 px-4 py-2 rounded-md my-2"
+              placeholder="Telefono"
+            />
+            {errors.cedula && <p className="text-red-500">Cedula requerida</p>}
+            {errors.numeroContacto && (
+              <p className="text-red-500 col-start-2">Telefono requerido</p>
+            )}
+          </div>
+
           <input
             type="text"
             {...register("eps", { required: true })}
@@ -114,14 +89,26 @@ function PaginaRegistro() {
           {errors.esEstudiante && (
             <p className="text-red-500">Selecciona un rol</p>
           )}
+          <input
+            type="text"
+            {...register("direccionResidencia", { required: true })}
+            className="w-full text-black border-2 px-4 py-2 rounded-md my-2 col-span-2"
+            placeholder="Dirección De Residencia"
+          />
+          {errors.direccionResidencia && (
+            <p className="text-red-500 col-span-2">
+              La direccion de residencia es requerida
+            </p>
+          )}
 
-          <div className="flex justify-center items-center h-full">
+          <div className="col-span-2 flex items-center justify-center">
             <button
               type="submit"
               className="bg-[#8b8a8a] rounded-md my-2 py-2 px-4 cursor-pointer"
             >
               Crear cuenta
             </button>
+            <ToastContainer />
           </div>
         </form>
       </div>
