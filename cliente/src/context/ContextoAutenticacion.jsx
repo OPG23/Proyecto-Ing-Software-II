@@ -1,4 +1,6 @@
-import { createContext, useState, useContext, useEffect, use } from "react";
+import { createContext, useState, useContext, useEffect } from "react";
+import { toast } from "react-toastify";
+
 import {
   peticionRegistro,
   peticionIniciarSesion,
@@ -25,7 +27,19 @@ export const ProveedorAutenticacion = ({ children }) => {
   const registrarse = async (usuario) => {
     try {
       const res = await peticionRegistro(usuario);
-      console.log(res.data);
+      toast.dismiss();
+      res.data.forEach((mensaje) =>
+        toast.success(mensaje, {
+          position: "top-right",
+          autoClose: false,
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          progress: undefined,
+          theme: "light",
+        })
+      );
     } catch (error) {
       console.log(error);
       setErrores(error.response.data);
