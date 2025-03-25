@@ -76,9 +76,11 @@ export const registro = async (req, res) => {
     });
 
     await nuevoUsuario.save();
+    const mensajeUsuario = "Usuario: " + usuario;
+    const mensajeCorreo = "Usuario: " + correo;
     res
       .status(201)
-      .json(["Usuario registrado con éxito", usuario, correo ]);
+      .json(["Usuario registrado con éxito", mensajeUsuario, mensajeCorreo]);
   } catch (error) {
     res.status(500).json(["Error interno del servidor: " + error.message]);
   }
