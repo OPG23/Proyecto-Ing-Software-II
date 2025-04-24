@@ -4,6 +4,10 @@ import { crearTokenAcceso } from "../libs/jwt.js";
 import jwt from "jsonwebtoken";
 import { TOKEN_SECRETO } from "../config.js";
 
+//esto es para crear el usuario y guardarlo en la base de datos
+// se hace la validacion de la cedula y el usuario, si no existe se crea el usuario
+// se crea el usuario y se guarda en la base de datos
+
 export const registro = async (req, res) => {
   const {
     nombres,
@@ -59,6 +63,8 @@ export const registro = async (req, res) => {
 
     const correo = usuario + "@proyecto.uan.com";
 
+    //si valida que todo esta bien que lo encrypte y lo guarde en la base de datos
+    //se encripta la clave con bcryptjs, se le pasa la cedula como clave y se le da un salt de 10
     const claveHash = await bcrypt.hash(String(cedula), 10);
 
     const nuevoUsuario = new Usuario({
@@ -77,7 +83,7 @@ export const registro = async (req, res) => {
 
     await nuevoUsuario.save();
     const mensajeUsuario = "Usuario: " + usuario;
-    const mensajeCorreo = "Correo: " + correo;
+    const mensajeCorreo = "Usuario: " + correo;
     res
       .status(201)
       .json(["Usuario registrado con éxito", mensajeUsuario, mensajeCorreo]);
@@ -87,17 +93,14 @@ export const registro = async (req, res) => {
 };
 
 export const iniciarSesion = async (req, res) => {
-  const { usuario, clave } = req.body;
+  const { clave, usuario } = req.body;
 
   try {
     const usuarioEncontrado = await Usuario.findOne({ usuario });
-    
-    if (!usuarioEncontrado)
-      return res.status(400).json(["Usuario o Clave incorrecta"]);
 
     const claveCoincide = await bcrypt.compare(clave, usuarioEncontrado.clave);
 
-    if (!claveCoincide)
+    if (!claveCoincide || !usuarioEncontrado)
       return res.status(400).json(["Usuario o Clave incorrecta"]);
 
     const token = await crearTokenAcceso({ id: usuarioEncontrado._id });
@@ -114,7 +117,6 @@ export const iniciarSesion = async (req, res) => {
       updatedAt: usuarioEncontrado.updatedAt,
     });
   } catch (error) {
-    console.log(error.message)
     res.status(500).json({ message: error.message });
   }
 };
@@ -164,3 +166,42 @@ export const verificarToken = async (req, res) => {
     });
   });
 };
+
+// Esta funcion es para verificar si el token es valido y si el usuario existe PARA el restablecimiento de contraseña
+// Aca valida directamente los datos con lo que hay en back 
+// en contraseas validar si los camposson iguals si si mandar a la DB el nuevo valor
+
+//4/21/2025 Actulizado
+export const restablecerContrasena = async (req, res) => {
+  const {
+    usuario,
+    cedula,
+    nuevaContrasena,
+    confirmarContrasena,
+
+  } = req.body;
+
+  try {
+    const usuarioEncontrado = await Usuario.findOne({ usuario });
+
+    if (!usuarioEncontrado) return res.status(400).json(["Usuario no encontrado"]);
+    
+    if (usuarioEncontrado.cedula !== cedula) return res.status(400).json(["Cedula incorrecta"]);
+
+    if (nuevaContrasena !== confirmarContrasena) return res.status(400).json(["Las contraseñas no coinciden"]);
+ 
+    const claveHash = await bcrypt.hash(String(nuevaContrasena), 10);
+    const usuarioActualizado = await Usuario.findByIdAndUpdate(
+      usuarioEncontrado._id,
+      { clave: claveHash },
+      { new: true }
+    );
+    if (!usuarioActualizado) return res.status(400).json(["Error al actualizar la contraseña"]);
+
+
+
+
+  }catch (error) {
+    res.status(500).json(["Error interno del servidor: " + error.message]);
+  }
+};  
