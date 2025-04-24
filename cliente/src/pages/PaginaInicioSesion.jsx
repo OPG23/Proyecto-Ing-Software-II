@@ -14,7 +14,7 @@ function PaginaInicioSesion() {
   });
 
   return (
-    <div className="flex h-full items-center justify-center">
+    <div className="flex h-screen items-center justify-center">
       <div className="bg-[rgba(231,231,231,0.9)] max-w-sm w-85 p-7 rounded-3xl border-2">
         {Array.isArray(errores) &&
           errores.map((error, i) => (

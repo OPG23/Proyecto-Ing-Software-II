@@ -18,7 +18,7 @@ function PaginaRegistro() {
   });
 
   return (
-    <div className="flex h-full items-center justify-center my-16">
+    <div className="flex h-screen items-center justify-center">
       <div className="bg-[rgba(231,231,231,0.9)] max-w-md w-90 pt-5 rounded-4xl border-2 mt-10 xl:mt-12.5">
         {errores.map((error, i) => (
           <div className="p-2 text-red-500 text-center rounded-md my-2" key={i}>

@@ -8,7 +8,7 @@ function RutasProtegidas() {
         Cargando...
     </h1>
 
-  if (!cargando && !estaAutenticado) return <Navigate to="/" replace />;
+  if (!cargando && !estaAutenticado) return <Navigate to="/iniciar-sesion" replace />;
   return <Outlet />;
 }
 
