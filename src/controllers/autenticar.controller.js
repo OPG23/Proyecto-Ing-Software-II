@@ -112,6 +112,7 @@ export const iniciarSesion = async (req, res) => {
       esAdministrador: usuarioEncontrado.esAdministrador,
       createdAt: usuarioEncontrado.createdAt,
       updatedAt: usuarioEncontrado.updatedAt,
+      esEstudiante: usuarioEncontrado.esEstudiante
     });
   } catch (error) {
     console.log(error.message)
@@ -157,10 +158,11 @@ export const verificarToken = async (req, res) => {
     return res.json({
       id: usuarioEncontrado._id,
       esAdministrador: usuarioEncontrado.esAdministrador,
+      esEstudiante: usuarioEncontrado.esEstudiante,
       nombres: usuarioEncontrado.nombres,
       apellidos: usuarioEncontrado.apellidos,
       usuario: usuarioEncontrado.usuario,
-      correo: usuarioEncontrado.correo,
+      correo: usuarioEncontrado.correo
     });
   });
 };

@@ -5,13 +5,17 @@ import PaginaRegistro from "./pages/PaginaRegistro";
 import PaginaPerfil from "./pages/paginaPerfil";
 import PaginaEntregaTareas from "./pages/PaginaEntregaTareas";
 import PaginaListaTareas from "./pages/PaginaListaTareas";
+import PaginaCrearTarea from "./pages/PaginaCrearTarea"; //revisar
+import PaginaEditarTarea from "./pages/PaginaEditarTarea";
+import PaginaTareasProfesor from "./pages/PaginaTareasProfesor";
 
 import RutasProtegidas from "./RutasProtegidas";
 import ProteccionRutaRegistro from "./ProteccionRutaRegistro";
 import ProteccionRutaIniciarSesion from "./ProteccionRutaIniciar-Sesion";
 import ProteccionRutaPerfil from "./ProteccionRutaPerfil";
-import ProteccionRutaEntregas from "./ProteccionRutaEntregas";
-import ProteccionRutaListaTareas from "./ProteccionRutaListaTareas";
+import ProteccionRutaTareasEstudiante from "./ProteccionRutaTareasEstudiante";
+import ProteccionRutaListaTareas from "./ProteccionRutaTareasEstudiante";
+import ProteccionRutaCrearTarea from "./ProteccionRutaCrearTarea"; //
 import Navegacion from "./layouts/Navegacion";
 import fondo from '/imagenFondoInicioSesion.png';
 
@@ -33,11 +37,16 @@ function App() {
               <Route element={<ProteccionRutaPerfil />}>
                 <Route path="/perfil" element={<PaginaPerfil />} />
               </Route>
-              <Route element={<ProteccionRutaEntregas />}>
+              <Route element={<ProteccionRutaTareasEstudiante />}>
                 <Route path="/entregar_tarea" element={<PaginaEntregaTareas />} />
+                <Route path="/lista_tareas" element={<PaginaListaTareas />} />
               </Route>
               <Route element={<ProteccionRutaListaTareas />}>
-                <Route path="/lista_tareas" element={<PaginaListaTareas />} />
+              </Route>
+              <Route element={<ProteccionRutaCrearTarea/>}> 
+                <Route path="/crear_tarea" element={<PaginaCrearTarea />} />
+                <Route path="/editar_tarea" element={<PaginaEditarTarea />} />
+                <Route path="/tareas_profesor" element={<PaginaTareasProfesor />} />
               </Route>
             </Route>
           </Routes>

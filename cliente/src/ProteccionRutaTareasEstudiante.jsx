@@ -1,12 +1,11 @@
 import { Navigate, Outlet } from "react-router-dom";
 import { usoAutenticacion } from "./context/ContextoAutenticacion";
 
-function ProteccionRutaListaTareas() {
+function ProteccionRutaTareasEstudiante() {
   const {usuario} = usoAutenticacion();
-
-
-  //if (usuario.esAdministrador) return <Navigate to="/registro" />;
+  
+  if (!usuario.esEstudiante) return <Navigate to="/profile" />;
   return <Outlet />;
 }
 
-export default ProteccionRutaListaTareas;
+export default ProteccionRutaTareasEstudiante;
