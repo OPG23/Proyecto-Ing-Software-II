@@ -172,23 +172,21 @@ export const verificarToken = async (req, res) => {
 // en contraseas validar si los camposson iguals si si mandar a la DB el nuevo valor
 
 //4/21/2025 Actulizado
+
+//4/27/2025
 export const restablecerContrasena = async (req, res) => {
   const {
     usuario,
     cedula,
-    nuevaContrasena,
-    confirmarContrasena,
+    nuevaContrasena
 
   } = req.body;
 
   try {
-    const usuarioEncontrado = await Usuario.findOne({ usuario });
+    const usuarioEncontrado = await Usuario.findOne({ usuario, cedula });
 
-    if (!usuarioEncontrado) return res.status(400).json(["Usuario no encontrado"]);
+    if (!usuarioEncontrado) return res.status(400).json(["Usuario no encontrado o cedula incorrecta"]);
     
-    if (usuarioEncontrado.cedula !== cedula) return res.status(400).json(["Cedula incorrecta"]);
-
-    if (nuevaContrasena !== confirmarContrasena) return res.status(400).json(["Las contraseñas no coinciden"]);
  
     const claveHash = await bcrypt.hash(String(nuevaContrasena), 10);
     const usuarioActualizado = await Usuario.findByIdAndUpdate(
@@ -198,7 +196,7 @@ export const restablecerContrasena = async (req, res) => {
     );
     if (!usuarioActualizado) return res.status(400).json(["Error al actualizar la contraseña"]);
 
-
+    res.status(200).json(["Contraseña actualizada con éxito"]);
 
 
   }catch (error) {

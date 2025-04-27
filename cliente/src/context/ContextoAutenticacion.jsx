@@ -1,5 +1,6 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
+import axios from "axios";
 
 import {
   peticionRegistro,
@@ -65,10 +66,22 @@ export const ProveedorAutenticacion = ({ children }) => {
     try {
       const res = await peticionRestablecerContrasena(usuario);
       toast.dismiss();
+      res.data.forEach((mensaje) => 
+        toast.success(mensaje, {
+          position: "top-right",
+          autoClose: 5000,  // Se cierra automáticamente después de 5s
+          hideProgressBar: false,
+          closeOnClick: true,
+          pauseOnHover: true,
+          draggable: true,
+          theme: "light",
+        })
+      );
     } catch (error) {
       setErrores(error.response.data);
     }
   };
+  
 
   const cerrarSesion = () => {
     Cookies.remove("token");

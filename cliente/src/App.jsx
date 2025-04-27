@@ -25,11 +25,13 @@ function App() {
         <Routes>
           {/* Esta es la cosa para agregar paginas sin asegurar solo con el enlace en path*/}
           <Route path="/" element={<PaginaInicio />} />
-          <Route path="/restablecer-contrasena" element={<PaginaRestablecerContrasena />} />
           
           <Route element={<ProteccionRutaIniciarSesion />}>
             <Route path="/iniciar-sesion" element={<PaginaInicioSesion />} />
+            {/* se agreag aca, para que solo se puede acceder si no se ha inicado sesion*/}
+            <Route path="/restablecer-contrasena" element={<PaginaRestablecerContrasena />} />
           </Route>
+
 
           {/* Esta es la cosa para agregar paginas protegiendo y forzando estar logeado para ver */}
           <Route element={<RutasProtegidas />}>
