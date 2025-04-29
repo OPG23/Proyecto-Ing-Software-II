@@ -13,9 +13,8 @@ import RutasProtegidas from "./RutasProtegidas";
 import ProteccionRutaRegistro from "./ProteccionRutaRegistro";
 import ProteccionRutaIniciarSesion from "./ProteccionRutaIniciar-Sesion";
 import ProteccionRutaPerfil from "./ProteccionRutaPerfil";
-import ProteccionRutaTareasEstudiante from "./ProteccionRutaTareasEstudiante";
-import ProteccionRutaListaTareas from "./ProteccionRutaTareasEstudiante";
-import ProteccionRutaCrearTarea from "./ProteccionRutaCrearTarea"; //
+import ProteccionRutasProfesores from "./ProteccionRutasProfesores"
+import ProteccionRutasEstudiantes from "./ProteccionRutasEstudiantes"
 import Navegacion from "./layouts/Navegacion";
 import fondo from '/imagenFondoInicioSesion.png';
 
@@ -37,13 +36,11 @@ function App() {
               <Route element={<ProteccionRutaPerfil />}>
                 <Route path="/perfil" element={<PaginaPerfil />} />
               </Route>
-              <Route element={<ProteccionRutaTareasEstudiante />}>
+              <Route element={<ProteccionRutasEstudiantes />}>
                 <Route path="/entregar_tarea" element={<PaginaEntregaTareas />} />
                 <Route path="/lista_tareas" element={<PaginaListaTareas />} />
               </Route>
-              <Route element={<ProteccionRutaListaTareas />}>
-              </Route>
-              <Route element={<ProteccionRutaCrearTarea/>}> 
+              <Route element={<ProteccionRutasProfesores />}> 
                 <Route path="/crear_tarea" element={<PaginaCrearTarea />} />
                 <Route path="/editar_tarea" element={<PaginaEditarTarea />} />
                 <Route path="/tareas_profesor" element={<PaginaTareasProfesor />} />

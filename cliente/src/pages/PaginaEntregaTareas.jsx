@@ -11,6 +11,7 @@ function PaginaEntregaTareas() {
 
         const confirmado = window.confirm("¿Está seguro de enviar esta tarea?");
         if (confirmado) {
+            window.alert("Tarea enviada!")
             console.log("Tarea Enviada");
             navigate("/lista_tareas"); 
         }

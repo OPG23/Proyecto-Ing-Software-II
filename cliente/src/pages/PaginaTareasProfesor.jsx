@@ -91,10 +91,8 @@ function PaginaTareasProfesor() {
                         </button>
                     </div>
                 <div className="text-center my-4">
-                    <button className="bg-[#157347] rounded-md my-2 py-1 px-4 cursor-pointer text-white" 
-                            onClick={Crear}>+ Añadir tarea</button>
+                    <button className="bg-[#157347] rounded-md my-2 py-1 px-4 cursor-pointer text-white" onClick={Crear}>+ Añadir tarea</button>
                 </div>
-                
                 </div>
             </div>
         </div>

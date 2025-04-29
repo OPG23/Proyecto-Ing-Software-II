@@ -12,6 +12,7 @@ function PaginaEditarTarea() {
 
         const confirmado = window.confirm("¿Está seguro de guardar los cambios?");
         if (confirmado) {
+            window.alert("Tarea editada correctamente!")
             console.log("Cambios guardados");
             navigate("/tareas_profesor"); 
         }
