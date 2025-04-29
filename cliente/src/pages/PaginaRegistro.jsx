@@ -14,6 +14,7 @@ function PaginaRegistro() {
     values.numeroContacto = Number(values.numeroContacto);
     values.cedula = Number(values.cedula);
     values.esEstudiante = values.esEstudiante === "true";
+
     await registrarse(values);
   });
 

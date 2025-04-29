@@ -1,6 +1,5 @@
 import { createContext, useState, useContext, useEffect } from "react";
 import { toast } from "react-toastify";
-
 import {
   peticionRegistro,
   peticionIniciarSesion,
@@ -50,7 +49,15 @@ export const ProveedorAutenticacion = ({ children }) => {
     try {
       const res = await peticionIniciarSesion(usuario);
       setEstaAutenticado(true);
-      setUsuario(res.data);
+      setUsuario({
+        id: res.data.id,
+        nombres: res.data.nombres,
+        apellidos: res.data.apellidos,
+        usuario: res.data.usuario,
+        correo: res.data.correo,
+        esAdministrador: res.data.esAdministrador,
+        esEstudiante: res.data.esEstudiante,
+      });
     } catch (error) {
       setErrores(error.response.data);
     }
@@ -89,7 +96,16 @@ export const ProveedorAutenticacion = ({ children }) => {
         }
 
         setEstaAutenticado(true);
-        setUsuario(res.data);
+        setUsuario({
+          id: res.data.id,
+          nombres: res.data.nombres,
+          apellidos: res.data.apellidos,
+          usuario: res.data.usuario,
+          correo: res.data.correo,
+          esAdministrador: res.data.esAdministrador,
+          esEstudiante: res.data.esEstudiante,
+          
+        });
 
         setCargando(false);
       } catch (error) {

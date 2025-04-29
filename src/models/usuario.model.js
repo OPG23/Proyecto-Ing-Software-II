@@ -53,6 +53,7 @@ const schemaUsuario = new mongoose.Schema(
       type: Boolean,
       require: true,
     },
+    
   },
   {
     timestamps: true,

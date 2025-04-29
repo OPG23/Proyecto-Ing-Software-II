@@ -1,16 +1,33 @@
 import { usoAutenticacion } from "../context/ContextoAutenticacion";
+import { useNavigate } from "react-router-dom";
 
-function paginaPerfil() {
+function PaginaPerfil() {
   const { usuario } = usoAutenticacion();
+  const navigate = useNavigate();
+
+
+  const irACrearCuestionario = () => {
+    navigate("/cuestionarios");
+  };
+  console.log("Usuario:", usuario);
+console.log("esEstudiante:", usuario?.esEstudiante);
+
   return (
-    <div className="min-h-screen flex flex-col items-center px-6 py-18">
-      <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold">
-        Bienvenido { usuario.nombres + " " + usuario.apellidos}
+    <div className="min-h-screen flex flex-col items-center justify-center px-6 py-18">
+      <h1 className="text-3xl sm:text-4xl md:text-5xl font-semibold text-center mb-6">
+        Bienvenido {usuario.nombres + " " + usuario.apellidos}
       </h1>
-      
-    
+
+      { !usuario?.esEstudiante && (
+        <button
+          onClick={irACrearCuestionario}
+          className="bg-[#8b8a8a] rounded-md my-2 py-2 px-4 cursor-pointer"
+        >
+          Crear Cuestionario
+        </button>
+      )}
     </div>
   );
 }
 
-export default paginaPerfil;
+export default PaginaPerfil;

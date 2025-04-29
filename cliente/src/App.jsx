@@ -10,6 +10,7 @@ import ProteccionRutaIniciarSesion from "./ProteccionRutaIniciar-Sesion";
 import ProteccionRutaPerfil from "./ProteccionRutaPerfil";
 import Navegacion from "./layouts/Navegacion";
 import fondo from '/imagenFondoInicioSesion.png'
+import SubirCuestionario from "./pages/SubirCuestionario";
 
 function App() {
   return (
@@ -28,6 +29,7 @@ function App() {
               </Route>
               <Route element={<ProteccionRutaPerfil />}>
                 <Route path="/perfil" element={<PaginaPerfil />} />
+                <Route path="/cuestionarios" element={<SubirCuestionario />} />
               </Route>
             </Route>
           </Routes>

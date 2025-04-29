@@ -110,6 +110,7 @@ export const iniciarSesion = async (req, res) => {
       usuario: usuarioEncontrado.usuario,
       correo: usuarioEncontrado.correo,
       esAdministrador: usuarioEncontrado.esAdministrador,
+      esEstudiante: usuarioEncontrado.esEstudiante,
       createdAt: usuarioEncontrado.createdAt,
       updatedAt: usuarioEncontrado.updatedAt,
     });
@@ -138,6 +139,7 @@ export const profile = async (req, res) => {
     apellidos: usuarioEncontrado.apellidos,
     correo: usuarioEncontrado.correo,
     esAdministrador: usuarioEncontrado.esAdministrador,
+    esEstudiante: usuarioEncontrado.esEstudiante,
     createdAt: usuarioEncontrado.createdAt,
     updatedAt: usuarioEncontrado.updatedAt,
   });
@@ -159,6 +161,7 @@ export const verificarToken = async (req, res) => {
       esAdministrador: usuarioEncontrado.esAdministrador,
       nombres: usuarioEncontrado.nombres,
       apellidos: usuarioEncontrado.apellidos,
+      esEstudiante: usuarioEncontrado.esEstudiante,
       usuario: usuarioEncontrado.usuario,
       correo: usuarioEncontrado.correo,
     });
