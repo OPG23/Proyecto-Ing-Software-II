@@ -10,7 +10,7 @@ const tareaSchema = new mongoose.Schema({
     },
     profesor: {
         type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Profesor', 
+        ref: 'Usuario', 
         required: true 
     },
     fechaCreacion: {
