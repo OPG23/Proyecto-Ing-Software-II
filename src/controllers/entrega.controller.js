@@ -1,54 +1,51 @@
 import Entrega from "../models/entrega.model.js";
 
-// Crear entrega
-const crearEntrega = async (req, res) => {
-    try {
-        const entrega = new Entrega(req.body);
-        await entrega.save();
-        res.status(201).json(entrega);
-    } catch (error) {
-        res.status(400).json({ msg: "Error al crear entrega" });
-    }
+// Entregar tarea (estudiante)
+export const entregarTarea = async (req, res) => {
+  try {
+    const { tarea, archivo, comentario } = req.body;
+    const estudiante = req.user.id;
+    const nuevaEntrega = new Entrega({ tarea, estudiante, archivo, comentario });
+    await nuevaEntrega.save();
+    res.status(201).json(nuevaEntrega);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Editar entrega (por ejemplo, calificar)
-const editarEntrega = async (req, res) => {
-    try {
-        const entrega = await Entrega.findByIdAndUpdate(req.params.id, req.body, { new: true });
-        if (!entrega) return res.status(404).json({ msg: "Entrega no encontrada" });
-        res.json(entrega);
-    } catch (error) {
-        res.status(400).json({ msg: "Error al editar entrega" });
-    }
+// Listar entregas de una tarea (profesor)
+export const listarEntregasPorTarea = async (req, res) => {
+  try {
+    const entregas = await Entrega.find({ tarea: req.params.tareaId }).populate("estudiante", "nombres apellidos correo");
+    res.json(entregas);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Obtener entrega por ID
-const obtenerEntrega = async (req, res) => {
-    try {
-        const entrega = await Entrega.findById(req.params.id);
-        if (!entrega) return res.status(404).json({ msg: "Entrega no encontrada" });
-        res.json(entrega);
-    } catch (error) {
-        res.status(500).json({ msg: "Error al obtener entrega" });
-    }
+// Obtener entrega de un estudiante para una tarea
+export const obtenerEntregaEstudiante = async (req, res) => {
+  try {
+    const entrega = await Entrega.findOne({ tarea: req.params.tareaId, estudiante: req.user.id });
+    if (!entrega) return res.status(404).json({ message: "Entrega no encontrada" });
+    res.json(entrega);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };
 
-// Listar entregas (por tarea, estudiante, etc.)
-const listarEntregas = async (req, res) => {
-    try {
-        const filtro = {};
-        if (req.query.tarea) filtro.tarea = req.query.tarea;
-        if (req.query.estudiante) filtro.estudiante = req.query.estudiante;
-        const entregas = await Entrega.find(filtro);
-        res.json(entregas);
-    } catch (error) {
-        res.status(500).json({ msg: "Error al listar entregas" });
-    }
-};
-
-export default {
-    crearEntrega,
-    editarEntrega,
-    obtenerEntrega,
-    listarEntregas
+// Calificar entrega (profesor)
+export const calificarEntrega = async (req, res) => {
+  try {
+    const { calificacion, retroalimentacion } = req.body;
+    const entrega = await Entrega.findByIdAndUpdate(
+      req.params.entregaId,
+      { calificacion, retroalimentacion },
+      { new: true }
+    );
+    if (!entrega) return res.status(404).json({ message: "Entrega no encontrada" });
+    res.json(entrega);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
 };

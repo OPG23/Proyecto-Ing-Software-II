@@ -1,43 +1,41 @@
 import mongoose from "mongoose";
 
-const entregaSchema = new mongoose.Schema({
-    tarea: { 
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Tarea',
-        required: true 
+const schemaEntrega = new mongoose.Schema(
+  {
+    tarea: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Tarea",
+      required: true,
     },
     estudiante: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Estudiante',
-        required: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Usuario",
+      required: true,
     },
-    fechaEntrega: {
-        type: Date,
-        default: Date.now 
+    archivo: {
+      type: String, // URL o nombre de archivo
+      required: false,
     },
-    archivoAdjunto: { 
-        type: String 
-    }, 
+    comentario: {
+      type: String,
+      required: false,
+    },
     calificacion: {
-        type: Number 
+      type: Number,
+      required: false,
     },
     retroalimentacion: {
-        type: String },
-    estado: {
-    type: String,
-    enum: ['entregada', 'revisada', 'retrasada', 'faltante'],
-    default: 'entregada'
+      type: String,
+      required: false,
     },
-    entregadoTarde: {
-        type: Boolean,
-        default: false 
+    fechaEntrega: {
+      type: Date,
+      default: Date.now,
     },
-    visibilidadNota: {
-        type: Boolean,
-        default: true 
-    }
+  },
+  {
+    timestamps: true,
+  }
+);
 
-
-})
-
-export default mongoose.model("Entrega", entregaSchema)
+export default mongoose.model("Entrega", schemaEntrega);

@@ -1,14 +1,28 @@
 import { Router } from "express";
-import tareaController from "../controllers/tarea.controller.js";
+import {
+  crearTarea,
+  listarTareas,
+  obtenerTarea,
+  editarTarea,
+  eliminarTarea,
+} from "../controllers/tarea.controller.js";
 import { autentacionRequerida } from "../middlewares/validadorToken.js";
 
 const router = Router();
 
+// Listar tareas (profesor y estudiante)
+router.get("/", autentacionRequerida, listarTareas);
 
-router.post("/", autentacionRequerida, tareaController.crearTarea);
-router.put("/:id", autentacionRequerida, tareaController.editarTarea);
-router.get("/:id", autentacionRequerida, tareaController.obtenerTarea);
-router.get("/", autentacionRequerida, tareaController.listarTareas);
-router.delete("/:id", autentacionRequerida, tareaController.eliminarTarea);
+// Crear tarea (solo profesor)
+router.post("/", autentacionRequerida, crearTarea);
+
+// Obtener tarea por id
+router.get("/:id", autentacionRequerida, obtenerTarea);
+
+// Editar tarea (solo profesor)
+router.put("/:id", autentacionRequerida, editarTarea);
+
+// Eliminar tarea (solo profesor)
+router.delete("/:id", autentacionRequerida, eliminarTarea);
 
 export default router;

@@ -1,41 +1,36 @@
 import mongoose from "mongoose";
 
-const tareaSchema = new mongoose.Schema({
+const schemaTarea = new mongoose.Schema(
+  {
     titulo: {
-        type: String,
-        required: true 
+      type: String,
+      required: true,
+      trim: true,
     },
     descripcion: {
-        type: String 
-    },
-    profesor: {
-        type: mongoose.Schema.Types.ObjectId, 
-        ref: 'Usuario', 
-        required: true 
-    },
-    fechaCreacion: {
-        type: Date, 
-        default: Date.now
+      type: String,
+      required: true,
     },
     fechaEntrega: {
-        type: Date,
-        required: true 
+      type: Date,
+      required: true,
     },
-    archivosAdjuntos: [String],
-    calificacionMax: {
-        type: Number, 
-        default: 5.0 
+    profesor: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "Usuario",
+      required: true,
     },
-    estado: {
-        type: String,
-        enum: ['activa', 'cerrada', 'borrador'],
-        default: 'activa' 
-    },
-    visibilidad: {
-        type: Boolean,
-        default: true 
-    },
+    archivos: [
+      {
+        type: String, // URL o nombre de archivo
+        required: false,
+      }
+    ],
+    // Puedes agregar más campos según necesidades
+  },
+  {
+    timestamps: true,
+  }
+);
 
-});
-
-export default mongoose.model("Tarea", tareaSchema)
+export default mongoose.model("Tarea", schemaTarea);
