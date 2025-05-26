@@ -17,19 +17,22 @@ function PaginaCrearTarea() {
         const confirmado = window.confirm("¿Está seguro de crear esta tarea?");
         if (!confirmado) return;
 
-        // Solo se envían los nombres de los archivos, adapta si necesitas subir archivos reales
         const archivos = lista_archivos.map((archivo) => archivo.name);
 
         try {
+            // Asegúrate de que crearTarea retorne una promesa y que el backend esté recibiendo el usuario autenticado
             await crearTarea({
                 titulo,
                 descripcion,
-                fechaEntrega,
+                fechaEntrega, // formato YYYY-MM-DD
                 archivos,
             });
+            // Espera a que la tarea se guarde antes de navegar
             navigate("/tareas_profesor");
         } catch (error) {
-            alert("Error al guardar la tarea. Intenta de nuevo.");
+            // Muestra el error exacto para depuración
+            alert("Error al guardar la tarea: " + (error?.response?.data?.message || error.message));
+            console.error(error);
         }
     };
 

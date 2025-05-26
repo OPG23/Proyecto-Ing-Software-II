@@ -16,6 +16,9 @@ export const crearTarea = async (req, res) => {
 // Listar tareas (para estudiante: todas, para profesor: solo las suyas)
 export const listarTareas = async (req, res) => {
   try {
+    console.log("usuario:", req.user);
+
+    
     let tareas;
     if (req.user.esEstudiante) {
       tareas = await Tarea.find().sort({ fechaEntrega: 1 });
@@ -26,6 +29,7 @@ export const listarTareas = async (req, res) => {
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
+  
 };
 
 // Obtener tarea por ID
@@ -64,3 +68,4 @@ export const eliminarTarea = async (req, res) => {
     res.status(500).json({ message: error.message });
   }
 };
+

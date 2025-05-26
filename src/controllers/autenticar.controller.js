@@ -100,7 +100,12 @@ export const iniciarSesion = async (req, res) => {
     if (!claveCoincide)
       return res.status(400).json(["Usuario o Clave incorrecta"]);
 
-    const token = await crearTokenAcceso({ id: usuarioEncontrado._id });
+    const token = await crearTokenAcceso({
+      id: usuarioEncontrado._id,
+      esEstudiante: usuarioEncontrado.esEstudiante,
+      esAdministrador: usuarioEncontrado.esAdministrador,
+    });
+
 
     res.cookie("token", token);
     res.json({
