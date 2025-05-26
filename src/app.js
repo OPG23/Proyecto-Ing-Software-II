@@ -23,5 +23,4 @@ app.use("/api", rutasAutenticar);
 app.use("/api/tareas", rutasTarea);
 app.use("/api/entregas", rutasEntrega);
 
-
 export default app;

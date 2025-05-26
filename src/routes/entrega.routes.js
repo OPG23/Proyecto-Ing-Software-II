@@ -5,12 +5,14 @@ import {
   obtenerEntregaEstudiante,
   calificarEntrega,
 } from "../controllers/entrega.controller.js";
+
 import { autentacionRequerida } from "../middlewares/validadorToken.js";
+import { upload } from "../middlewares/upload.middleware.js";
 
 const router = Router();
 
 // Entregar tarea (estudiante)
-router.post("/", autentacionRequerida, entregarTarea);
+router.post("/", autentacionRequerida, upload.single("archivo"), entregarTarea);
 
 // Listar entregas de una tarea (profesor)
 router.get("/tarea/:tareaId", autentacionRequerida, listarEntregasPorTarea);

@@ -10,6 +10,7 @@ import PaginaListaTareas from "./pages/PaginaListaTareas";
 import PaginaCrearTarea from "./pages/PaginaCrearTarea"; //revisar
 import PaginaEditarTarea from "./pages/PaginaEditarTarea";
 import PaginaTareasProfesor from "./pages/PaginaTareasProfesor";
+import PaginaEntregasProfesor from "./pages/PaginaEntregasProfesor.jsx";
 
 import RutasProtegidas from "./RutasProtegidas";
 import ProteccionRutaRegistro from "./ProteccionRutaRegistro";
@@ -48,6 +49,7 @@ function App() {
                     <Route path="/crear_tarea" element={<PaginaCrearTarea />} />
                     <Route path="/editar_tarea" element={<PaginaEditarTarea />} />
                     <Route path="/tareas_profesor" element={<PaginaTareasProfesor />} />
+                    <Route path="/entregas_tarea" element={<PaginaEntregasProfesor />} />
                   </Route>
                 </Route>
               </Routes>

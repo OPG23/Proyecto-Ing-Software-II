@@ -11,3 +11,5 @@ export const peticionObtenerMiEntrega = (tareaId) => axios.get(`/entregas/mi-ent
 
 // Calificar entrega (profesor)
 export const peticionCalificarEntrega = (entregaId, datos) => axios.put(`/entregas/${entregaId}/calificar`, datos);
+
+//export const peticionObtenerMiEntrega = (tareaId) => axios.get(`/entregas/mi-entrega/${tareaId}`);

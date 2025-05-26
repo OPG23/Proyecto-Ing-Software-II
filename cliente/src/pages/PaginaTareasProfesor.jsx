@@ -55,6 +55,13 @@ function PaginaTareasProfesor() {
                                     >
                                         🗑 Eliminar
                                     </button>
+                                    <button
+                                        className="bg-purple-600 text-white rounded-md my-2 py-1 px-4 cursor-pointer"
+                                        onClick={() => navigate(`/entregas_tarea?id=${tarea._id}`)}
+                                    >
+                                        📄 Ver entregas
+                                    </button>
+
                                 </div>
                             ))}
                             <div className="text-center my-4">

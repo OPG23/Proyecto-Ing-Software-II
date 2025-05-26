@@ -1,11 +1,14 @@
 import { createContext, useContext, useState } from "react";
+import { toast } from "react-toastify";
+import axios from "../api/axios";
+
 import {
   peticionEntregarTarea,
   peticionListarEntregasPorTarea,
   peticionObtenerMiEntrega,
   peticionCalificarEntrega,
 } from "../api/entrega";
-import { toast } from "react-toastify";
+
 
 export const ContextoEntrega = createContext();
 
@@ -20,14 +23,15 @@ export const ProveedorEntrega = ({ children }) => {
   const [miEntrega, setMiEntrega] = useState(null);
   const [cargando, setCargando] = useState(false);
 
-  const entregarTarea = async (entrega) => {
-    try {
-      await peticionEntregarTarea(entrega);
-      toast.success("Tarea entregada");
-    } catch (error) {
-      toast.error("Error al entregar tarea");
-    }
-  };
+  const entregarTarea = async (formData) => {
+  try {
+    await peticionEntregarTarea(formData);
+    toast.success("Tarea entregada");
+  } catch (error) {
+    toast.error("Error al entregar tarea");
+  }
+};
+
 
   const listarEntregasPorTarea = async (tareaId) => {
     setCargando(true);

@@ -3,15 +3,33 @@ import Entrega from "../models/entrega.model.js";
 // Entregar tarea (estudiante)
 export const entregarTarea = async (req, res) => {
   try {
-    const { tarea, archivo, comentario } = req.body;
+    console.log("BODY:", req.body);
+    console.log("FILE:", req.file);
+
+    const tareaId = req.body.tarea;
+    const comentario = req.body.comentario;
     const estudiante = req.user.id;
-    const nuevaEntrega = new Entrega({ tarea, estudiante, archivo, comentario });
+    const archivo = req.file ? req.file.filename : "";
+
+    if (!tareaId) {
+      return res.status(400).json({ message: "Falta el campo 'tarea'" });
+    }
+
+    const nuevaEntrega = new Entrega({
+      tarea: tareaId,
+      estudiante,
+      comentario,
+      archivo,
+    });
+
     await nuevaEntrega.save();
     res.status(201).json(nuevaEntrega);
   } catch (error) {
+    console.error("ERROR al guardar entrega:", error.message);
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // Listar entregas de una tarea (profesor)
 export const listarEntregasPorTarea = async (req, res) => {
