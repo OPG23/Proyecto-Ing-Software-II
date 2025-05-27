@@ -46,7 +46,7 @@ function PaginaEntregasProfesor() {
           entregas.map((entrega) => (
             <div
               key={entrega._id}
-              className="rounded-2xl border-2 border-gray-400 text-left py-4 px-4 space-y-2 bg-white mb-6"
+              className="rounded-2xl border-2 border-gray-400 text-left py-4 px-4 space-y-2  mb-6"
             >
               <p><strong>Estudiante:</strong> {entrega.estudiante?.nombres} {entrega.estudiante?.apellidos}</p>
               <p><strong>Comentario:</strong> {entrega.comentario || "Ninguno"}</p>
@@ -82,23 +82,26 @@ function PaginaEntregasProfesor() {
                   className="w-full border rounded px-2 py-1"
                   onChange={(e) => handleNotaChange(entrega._id, "retroalimentacion", e.target.value)}
                 />
-                <button
-                  className="bg-green-600 text-white rounded-md py-1 px-4"
+                <div className="text-center">
+                  <button
+                  className="bg-[#157347] rounded-md my-2 py-1 px-4 cursor-pointer text-white"
                   onClick={() => guardarNota(entrega._id)}
                 >
                   Guardar nota
                 </button>
+                  </div>
+                
               </div>
             </div>
           ))
         )}
 
-        <div className="text-center mt-6">
+        <div className="text-center">
           <button
-            className="bg-gray-600 text-white rounded-md py-2 px-4"
+            className="bg-[#8b8a8a] text-black rounded-md my-1 py-1 px-1 w-35 cursor-pointer"
             onClick={() => navigate("/tareas_profesor")}
           >
-            ← Volver a tareas
+            Volver a tareas asignadas
           </button>
         </div>
       </div>

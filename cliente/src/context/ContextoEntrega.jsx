@@ -22,6 +22,8 @@ export const ProveedorEntrega = ({ children }) => {
   const [entregas, setEntregas] = useState([]);
   const [miEntrega, setMiEntrega] = useState(null);
   const [cargando, setCargando] = useState(false);
+  //const [miEntrega, setMiEntrega] = useState(null);
+
 
   const entregarTarea = async (formData) => {
   try {
@@ -44,14 +46,14 @@ export const ProveedorEntrega = ({ children }) => {
     setCargando(false);
   };
 
-  const obtenerMiEntrega = async (tareaId) => {
+  /*const obtenerMiEntrega = async (tareaId) => {
     try {
       const res = await peticionObtenerMiEntrega(tareaId);
       setMiEntrega(res.data);
     } catch (error) {
       toast.error("Error al obtener mi entrega");
     }
-  };
+  };*/
 
   const calificarEntrega = async (entregaId, datos) => {
     try {
@@ -61,6 +63,17 @@ export const ProveedorEntrega = ({ children }) => {
       toast.error("Error al calificar entrega");
     }
   };
+
+  const obtenerMiEntrega = async (tareaId) => {
+  try {
+    const res = await peticionObtenerMiEntrega(tareaId);
+    setMiEntrega(res.data);
+  } catch (error) {
+    setMiEntrega(null);
+    toast.error("Error al obtener mi entrega");
+  }
+};
+
 
   return (
     <ContextoEntrega.Provider

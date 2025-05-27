@@ -42,7 +42,7 @@ function PaginaTareasProfesor() {
                         <>
                             {tareas.map((tarea) => (
                                 <div key={tarea._id} className="rounded-2xl border-2 border-gray-400 text-center py-4 px-3 space-x-4">
-                                    <h2>{tarea.titulo}</h2>
+                                    <h2 className="font-bold">{tarea.titulo}</h2>
                                     <button
                                         className="bg-blue-600 rounded-md my-2 py-1 px-4 cursor-pointer text-white"
                                         onClick={() => handleEditar(tarea._id)}
