@@ -1,0 +1,63 @@
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { useNavigate, Link } from "react-router-dom";
+
+function MisCuestionariosProfesor() {
+  const [cuestionarios, setCuestionarios] = useState([]);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const obtenerCuestionarios = async () => {
+      const res = await axios.get(
+        "http://localhost:4000/api/mis-cuestionarios",
+        {
+          withCredentials: true,
+        }
+      );
+      setCuestionarios(res.data);
+    };
+    obtenerCuestionarios();
+  }, []);
+
+  return (
+    <div className="max-w-3xl mx-auto mt-8 bg-[rgba(231,231,231,0.9)] rounded-lg shadow-lg p-6 border-2">
+      <h1 className="text-2xl font-bold mb-6 text-center">Mis Cuestionarios</h1>
+      {cuestionarios.length === 0 && (
+        <p className="text-center">
+          No has creado ningún cuestionario todavía.
+        </p>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {cuestionarios.map((c) => (
+          <div
+            key={c._id}
+            className="border p-4 rounded-lg bg-white shadow hover:shadow-lg transition duration-300"
+          >
+            <h2 className="text-lg font-semibold mb-1">{c.titulo}</h2>
+            <p className="mb-1">{c.descripcion}</p>
+            <p className="text-sm text-gray-600 mb-3">
+              Fecha: {new Date(c.fechaCreacion).toLocaleDateString()}
+            </p>
+            <button
+              className="px-4 py-2 bg-[#8b8a8a] text-white rounded-md w-full"
+              onClick={() => navigate(`/ver-respuestas/${c._id}`)}
+            >
+              Ver Respuestas
+            </button>
+          </div>
+        ))}
+      </div>
+      <div className="w-full flex items-center justify-center">
+        <Link
+          to="/"
+          className="bg-[#8b8a8a] flex items-center justify-center w-25 mt-1 rounded-md px-4 py-1 text-sm sm:text-xl sm:px-5 sm:py-1 border-1 cursor-pointer"
+        >
+          Atrás
+        </Link>
+      </div>
+    </div>
+  );
+}
+
+export default MisCuestionariosProfesor;
